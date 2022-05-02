@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviour
     public GameObject scoreText;    //スコアテキスト
     public static int totalScore;   //合計スコア
     public int stageScore = 0;      //ステージスコア
+
+    //＋＋＋サウンド再生追加＋＋＋
+    public AudioClip meGameOver;    //ゲームオーバー
+    public AudioClip meGameClear;   //ゲームクリア
     
    // Start is called before the first frame update
     void Start()
@@ -77,6 +81,17 @@ public class GameManager : MonoBehaviour
             totalScore += stageScore;
             stageScore = 0;
             UpdateScore();
+
+            //＋＋＋サウンド再生追加＋＋＋
+            //サウンド再生
+            AudioSource soundPlayer = GetComponent<AudioSource>();
+
+            if(soundPlayer!=null)
+            {
+                //BGM停止
+                soundPlayer.Stop();
+                soundPlayer.PlayOneShot(meGameClear);
+            }
         }
         //ゲームオーバーだったら
         else if(PlayerController.gameState=="gameover")
@@ -93,6 +108,16 @@ public class GameManager : MonoBehaviour
             if(timeCnt!=null)
             {
                 timeCnt.isTimeOver = true;  //時間カウント停止
+            }
+
+            //+++サウンド再生追加＋＋＋
+            //サウンド再生
+            AudioSource soundPlayer = GetComponent<AudioSource>();
+            if(soundPlayer!=null)
+            {
+                //BGM停止
+                soundPlayer.Stop();
+                soundPlayer.PlayOneShot(meGameOver);
             }
         }
         //ゲーム中
